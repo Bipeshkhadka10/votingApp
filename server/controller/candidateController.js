@@ -149,3 +149,21 @@ exports.count = async(req,res)=>{
         return res.status(500).json({error:'server error'})
     }
 }
+
+
+// elector list 
+exports.lists = async(req,res)=>{
+    try {
+        const candidate = await Candidate.find({},{name:1}).sort({voteCount:-1});
+        const count = await candidate.find().count()
+        console.log(count)
+        // const lists = candidate.map((data)=>{
+            
+        // })
+        console.log('candidate lists',lists)
+       return res.status(200).json(lists)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({error:'server error'})
+    }
+}

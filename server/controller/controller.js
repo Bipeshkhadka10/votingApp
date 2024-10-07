@@ -1,9 +1,17 @@
 const User = require("../model/user");
 const {jwtAuthMiddleware,generatetoken} = require('../jwtauth/jwt')
 
+
+
 exports.userSignup = async (req, res) => {
     try {
         const data = req.body;
+        // check the admin role
+        const user = await User.find({role:{$eq:'Admin'}})
+        if(user && (data.role === 'Admin')){
+            return res.status(403).json({message:'there can not be multiple admin'})
+        }
+        
 
         // Ensure all required fields are provided
         if (!data.name || !data.age || !data.username || !data.address || !data.citizenShip || !data.password) {
@@ -21,7 +29,6 @@ exports.userSignup = async (req, res) => {
             id: response.id
         }
         const token = generatetoken(payload);
-        console.log('token is :',payload)
         console.log('data saved');
         res.status(200).json({response,token:token});
     } catch (error) {

@@ -24,7 +24,7 @@ const AutheMiddleware = passport.authenticate('local',{session:false})
 * voter GET/POST  |METHOD  ||Controller
 */
  router.post('/',jwtAuthMiddleware,candidateController.candidate)
-//  router.get('/user/profile',jwtAuthMiddleware,Controller.userProfile)
+ router.get('/',candidateController.lists)
  router.put('/:candidateId',jwtAuthMiddleware,candidateController.candidateUpdate)
  router.delete('/:candidateId',jwtAuthMiddleware,candidateController.candidateDelete)
 
